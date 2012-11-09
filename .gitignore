@@ -1,0 +1,12 @@
+# Compiled code
+*.class
+*.jar
+
+# Snaykuu replays
+*.srp
+
+# Don't even know what this is
+*.zargo~
+
+# SNAYKUU Project file
+snaykuu
