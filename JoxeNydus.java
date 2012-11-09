@@ -33,12 +33,20 @@ public class JoxeNydus implements Brain {
 		
 		Position l_leftPos  = previousDirection.turnLeft().calculateNextPosition(self.getHeadPosition());
 		Position l_rightPos = previousDirection.turnRight().calculateNextPosition(self.getHeadPosition());
-		Position l_nextPos  = previousDirection.calculateNextPosition(self.getHeadPosition());
+		Position l_forwPos  = previousDirection.calculateNextPosition(self.getHeadPosition());
 
-		double l_left  = getDistance(l_leftPos, goal)  + (gamestate.getBoard().isLethal(l_leftPos)  ? 1000 : 0);
-		double l_right = getDistance(l_rightPos, goal) + (gamestate.getBoard().isLethal(l_rightPos) ? 1000 : 0);
-		double l_next  = getDistance(l_nextPos, goal)  + (gamestate.getBoard().isLethal(l_nextPos)  ? 1000 : 0);
+		double l_left    = getDistanceValue(l_leftPos, goal)  + (gamestate.getBoard().isLethal(l_leftPos)  ? 1000 : 0);
+		double l_right   = getDistanceValue(l_rightPos, goal) + (gamestate.getBoard().isLethal(l_rightPos) ? 1000 : 0);
+		double l_forward = getDistanceValue(l_nextPos, goal)  + (gamestate.getBoard().isLethal(l_nextPos)  ? 1000 : 0);
 
+		if (l_left < l_forward) {
+			return l_right < l_left ? self.getCurrentDirection().turnRight() : self.getCurrentDirection().turnLeft();
+		} else if (l_right < l_forward) {
+			return l_left < l_right ? self.getCurrentDirection().turnLeft() : self.getCurrentDirection().turnRight();
+		}
+		return self.getCurrentDirection();
+
+		/*
 		if (l_right < l_left) {
 			if (l_next < l_right) {
 				return self.getCurrentDirection();
@@ -48,6 +56,7 @@ public class JoxeNydus implements Brain {
 			return self.getCurrentDirection();
 		}
 		return self.getCurrentDirection().turnLeft();
+		*/
 	}
 
 
